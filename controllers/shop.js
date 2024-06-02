@@ -76,7 +76,7 @@ function getIndex(req, res, next) {
   } else {
     res.render("shop/index", {
       movieLists: [],
-      pageTitle: "Shop",
+      pageTitle: "Home",
       path: "/",
     });
   }
