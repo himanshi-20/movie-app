@@ -74,4 +74,4 @@ If you do not have nodemon installed or prefer not to use it, you can start the 
 node app.js
 ```
 
-The application will be accessible at http://localhost:3000.
+The application will be accessible at http://localhost:8000.
