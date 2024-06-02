@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const link = document.createElement("input");
       link.setAttribute("type", "text");
-      link.setAttribute("value", `http://localhost:8000/lists/${listId}`);
+      link.setAttribute("value", `https://movie-app-8zyc.onrender.com/lists/${listId}`);
       dialog.appendChild(link);
       shareBackdrop.classList.add("share-backdrop--open");
       
