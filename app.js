@@ -73,7 +73,7 @@ app.use((error, req, res, next) => {
 
 const PORT = process.env.PORT || 8000;
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   connectToDb();
   console.log(`The server is up at port ${PORT}!`);
 });
