@@ -1,0 +1,64 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/styles/forms.css">
+    <link rel="stylesheet" href="/styles/product.css">
+</head>
+
+<body>
+   <%- include('../includes/navigation.ejs') %>
+
+    <main>
+        <% if (message) { %>
+            <div class="user-message user-message--error">
+                <%= message %>
+            </div>
+        <% } %>
+        <form class="product-form" 
+        action="<% if (editing) { %>/edit/<%= list._id %><% } else { %>/create<%} %>" method="post">
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input 
+                class="<% if (validationErrors) { %> 
+                    <%= validationErrors.find(e => e.path === 'title') ? 'invalid' : '' %>
+                   <% } %>"
+                type="text" name="title" id="title" value="<% if (editing || hasError) { %><%= list.title %><% }%>">
+            </div>
+            <div class="form-control">
+                <label for="status">Status</label>
+                <select class="status__list" id="status" name="status">
+                    <option class="status__option" value="private"
+                        <% if (editing ||hasError){ %>
+                            <% if (list.status == 'private'){ %>
+                               selected = 'true'
+                            <% } else { %>
+                                selected = 'false'
+                            <% } %>
+                            <% } else {%> 
+                                selected = 'true'
+                                <% } %>
+                            >
+                            Private &nbsp;&nbsp;</option>
+                    <option class="status__option" value="public" 
+                    <% if (editing ||hasError){ %>
+                        <% if (list.status == 'private'){ %>
+                        <%= selected = 'true' %>
+                        <% } else { %>
+                            selected = 'false'
+                        <% } %>
+                    <% } %>
+                    >Public &nbsp;&nbsp;</option>
+                </select>
+            </div>
+            <div class ="form-control">
+                <label  for="description">Description</label>
+                <textarea 
+                class=
+                "<% if (validationErrors) { %><%= validationErrors.find(e => e.path === 'description') ? 'invalid' : '' %><% } %>"
+                name="description" id="description" rows="5"><% if (editing ||hasError){ %><%= list.description %><% }%></textarea>
+            </div>
+            <input type="hidden" name="_csrf" value="<%= csrf %>" />
+            <button class="btn" type="submit">
+                <% if (editing) { %>Update List<% } else { %>Create List<%} %>
+            </button>
+        </form>
+    </main>
+<%- include('../includes/end.ejs') %>

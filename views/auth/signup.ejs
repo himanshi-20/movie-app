@@ -1,0 +1,45 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/styles/forms.css">
+    <link rel="stylesheet" href="/styles/auth.css">
+</head>
+
+<body>
+   <%- include('../includes/navigation.ejs') %>
+
+    <main>
+        <% if (message) { %>
+            <div class="user-message user-message--error">
+                <%= message %>
+                </div>
+        <% } %>
+        <form class="login-form" action="/signup" method="POST" novalidate>
+            <div class="form-control">
+                <label for="email">E-Mail</label>
+                <input
+                class="<% if (validationErrors) { %> 
+                    <%= validationErrors.find(e => e.path === 'email') ? 'invalid' : '' %>
+                   <% } %>"
+                 type="email" name="email" id="email" value="<% if (oldInput) { %><%= oldInput.email %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="password">Password</label>
+                <input
+                class="<% if (validationErrors) { %> 
+                    <%= validationErrors.find(e => e.path === 'password') ? 'invalid' : '' %>
+                   <% } %>"
+                type="password" name="password" id="password" value="<% if (oldInput) { %><%= oldInput.password %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="confirmPassword">Confirm Password</label>
+                <input
+                class="<% if (validationErrors) { %> 
+                    <%= validationErrors.find(e => e.path === 'confirmPassword') ? 'invalid' : '' %>
+                   <% } %>"
+                type="password" name="confirmPassword" id="confirmPassword" value="<% if (oldInput) { %><%= oldInput.confirmPassword %><% } %>">
+            </div>
+          <input type="hidden" name="_csrf" value="<%= csrf %>" />
+
+            <button class="btn" type="submit">Sign-Up</button>
+        </form>
+    </main>
+<%- include('../includes/end.ejs') %>

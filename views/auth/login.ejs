@@ -1,0 +1,31 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/styles/forms.css">
+</head>
+
+<body>
+   <%- include('../includes/navigation.ejs') %>
+
+    <main>
+        <% if (message) { %>
+            <div class="user-message user-message--error"><%= message %></div>
+        <% } %>
+        <form class="login-form" action="/login" method="POST" novalidate>
+            <div class="form-control">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" value="<% if (oldInput) { %><%= oldInput.email %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" value="<% if (oldInput) { %><%= oldInput.password %><% } %>">
+            </div>
+            <div class="right">
+                <a class="reset--link" href="/signup">Sign-up</a>
+                <br>
+                <a class="reset--link" href="/reset">Forgot Password?</a>
+            </div>
+          <input type="hidden" name="_csrf" value="<%= csrf %>" />
+            
+            <button class="btn" type="submit">Login</button>
+        </form>
+    </main>
+<%- include('../includes/end.ejs') %>

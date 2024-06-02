@@ -1,0 +1,44 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/styles/forms.css">
+    <link rel="stylesheet" href="/styles/product.css" />
+</head>
+
+<body>
+   <%- include('../includes/navigation.ejs') %>
+
+   <main>
+    <% if (products.length > 0) { %>
+    <div class="grid">
+      <% for(let product of products) {%>
+          <article class="card product-item">
+              <header class="card__header">
+              <h1 class="product__title"><%= product.Title %></h1>
+              </header>
+              <div class="card__image">
+              <img
+                  src="<%= product.Poster.includes('http') ? product.Poster : `https://media.istockphoto.com/id/1452662817/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=bGI_FngX0iexE3EBANPw9nbXkrJJA4-dcEJhCrP8qMw=` %>"
+                  alt="<%= product.Title %>"
+              />
+              </div>
+              <div class="card__content">
+              <!-- <h2 class="product__price">Type: <%= product.Type %></h2> -->
+              <p class="product__description">
+                Type: <%= product.Type %><br>
+                Release-Year: <%= product.Year %>
+              </p>
+              </div>
+              <div class="card__actions">
+                <% if(isAuthenticated) { %>
+                  <a href="/movies/<%= product.imdbID %>" class="btn">Details</a>
+                <% } else { %>
+                  <a href="/login" class="btn">Details</a>
+                <% } %>
+              </div>
+          </article>
+      <% } %>
+    </div>
+    <% } else { %>
+      <h1>No Result Found!</h1>
+    <% } %>
+  </main>
+<%- include('../includes/end.ejs') %>

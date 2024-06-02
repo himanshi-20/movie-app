@@ -1,0 +1,44 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/styles/lists.css" />
+
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+        <section class="list-info">
+            <h2 class="list-info__title"><%= list.title %></h2>
+            <p class="list-info__description"><%= list.description %></p>
+            <p class="list-info__status">Status: <%= list.status %></p>
+            <p class="list-info__date">Created At: <%= list.createdAt %></p>
+        </section>
+
+        <section class="movie-cards">
+            <% if (list.movies.length > 0) { %>
+                <!-- Display movie cards -->
+                <% list.movies.forEach(function(movie) { %>
+                    <article class="card product-item" id="<%= movie.imdbID %>">
+                        <header class="card__header">
+                            <h1 class="product__title"><%= movie.Title %></h1>
+                            </header>
+                            <div class="card__image">
+                                <img src="<%= movie.Poster.includes('http') ? movie.Poster : `https://media.istockphoto.com/id/1452662817/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=bGI_FngX0iexE3EBANPw9nbXkrJJA4-dcEJhCrP8qMw=` %>" alt="<%= movie.Title %>"/>
+                            </div>
+                            <div class="card__content">
+                            <p class="product__description">
+                                Type: <%= movie.Type %>
+                                Genre: <%= movie.Genre %>
+                            </p>
+                            </div>
+                            <div class="card__actions">
+                              <a href="/movies/<%= movie.imdbID %>" class="btn">Details</a>
+                            </div>
+                    </article>
+                <% }); %>
+            <% } else { %>
+                <h1 class="empty--title">No Movies here!</h1>
+            <% } %>
+        </section>
+    </main>
+    <%- include('../includes/end.ejs') %>
+</body>

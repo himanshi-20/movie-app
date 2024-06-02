@@ -1,0 +1,69 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/styles/lists.css" />
+<link rel="stylesheet" href="/styles/product.css">
+
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+
+        <div class="share-backdrop"></div>
+        <% if (Object.keys(movieLists).length !== 0) { %>
+            <% for (const movieListId in movieLists) { %>
+                <% const movieList = movieLists[movieListId]; %>
+                <section class="movie-list" id="<%= movieList._id %>">
+                    <h2 class="movie-list__title"><%= movieList.title %> - <span class="movie-list__description"><%= movieList.description %></span></h2>
+                    <div class="movie-cards-carousel">
+                        <div class="movie-cards">
+                            <!-- Start -->
+                            <% if (movieList.movies.length > 0) { %>
+                                <% for (const movie of movieList.movies) { %>
+                                    <article class="card product-item" id="<%= movie.imdbID %>">
+                                        <header class="card__header">
+                                            <h1 class="card__title"><%= movie.Title %></h1>
+                                        </header>
+                                        <div class="card__image">
+                                            <img src="<%= movie.Poster.includes('http') ? movie.Poster : `https://media.istockphoto.com/id/1452662817/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=bGI_FngX0iexE3EBANPw9nbXkrJJA4-dcEJhCrP8qMw=` %>" alt="<%= movie.Title %>"/>
+                                        </div>
+                                        <div class="card__content">
+                                            <p class="card__description">
+                                                Type: <%= movie.Type %><br>
+                                                Release-Year: <%= movie.Year %>
+                                            </p>
+                                        </div>
+                                        <div class="card__actions">
+                                          <a href="/removeMovie/<%= movie.imdbID %>?lId=<%= movieList._id %>" class="btn btn--danger">Remove</a>
+                                          <a href="/movies/<%= movie.imdbID %>" class="btn">Details</a>
+                                        </div>
+                                    </article>
+                                <% } %>
+                            <% } else { %>
+                                <h1 class="empty--title">No Movies here!</h1>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <form action="/edit/<%= movieList._id %>" method="get">
+                          <input type="hidden" name="_csrf" value="<%= csrf %>" />
+                          <button type="submit" class="actions__btn edit-btn">Edit</button>
+                        </form>
+                        <% if (movieList.status === 'public') { %>
+                          <button class="actions__btn share-btn">Share</button>
+                        <% } %>
+                        <form action="/deleteList/<%= movieList._id %>" method="get">
+                          <input type="hidden" name="_csrf" value="<%= csrf %>" />
+                          <button type="submit" class="actions__btn delete-btn">Delete</button>
+                        </form>
+                    </div>
+                </section>
+            <% } %>
+
+        <% } else { %>
+            <h1 class="empty--title">Nothing to see here!</h1>
+        <% } %>
+
+    </main>
+
+    <%- include('../includes/end.ejs',{mlists: true}) %>
+    <script src="/scripts/mlists.js"></script>

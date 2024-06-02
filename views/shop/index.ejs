@@ -1,0 +1,60 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/styles/product.css">
+    <link rel="stylesheet" href="/styles/lists.css">
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <main>
+        <div id="search-section">
+            <form id="search-form" action="/search" method="POST">
+                <input type="text" id="search-input" placeholder="Enter movie title..." required>
+                <input type="hidden" name="_csrf" value="<%= csrf %>" />
+                <button class="search-btn" type="submit">Search</button>
+            </form>
+        </div>
+        
+            <% if(isAuthenticated) { %>
+                <% if (Object.keys(movieLists).length !== 0) { %>
+                    <% for (const movieListId in movieLists) { %>
+                        <% const movieList = movieLists[movieListId]; %>
+                        <% if (movieList.movies.length > 0) { %>
+                            <section class="movie-list" id="<%= movieList._id %>">
+                                <h2 class="movie-list__title"><%= movieList.title %> - <span class="movie-list__description"><%= movieList.description %></span></h2>
+                                <div class="movie-cards-carousel">
+                                    <div class="movie-cards">
+                                        <!-- Start -->
+                                            <% for (const movie of movieList.movies) { %>
+                                                <article class="card product-item">
+                                                    <header class="card__header">
+                                                        <h1 class="card__title"><%= movie.Title %></h1>
+                                                    </header>
+                                                    <div class="card__image">
+                                                        <img src="<%= movie.Poster.includes('http') ? movie.Poster : `https://media.istockphoto.com/id/1452662817/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=bGI_FngX0iexE3EBANPw9nbXkrJJA4-dcEJhCrP8qMw=` %>" alt="<%= movie.Title %>"/>
+                                                    </div>
+                                                    <div class="card__content">
+                                                        <p class="card__description">
+                                                            Type: <%= movie.Type %><br>
+                                                            Release-Year: <%= movie.Year %>
+                                                        </p>
+                                                    </div>
+                                                    <div class="centered">
+                                                        <a href="/movies/<%= movie.imdbID %>" class="btn">Details</a>
+                                                    </div>
+                                                </article>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </section>
+                        <% } %>
+                    <% } %>
+        
+                <% } else { %>
+                    <h1 class="empty--title">Nothing to see here!</h1>
+                <% } %>
+            <% } %>
+        
+    </main>
+    <script src="/scripts/search.js"></script>
+<%- include('../includes/end.ejs') %>
